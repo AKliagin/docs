@@ -1,0 +1,86 @@
+<!DOCTYPE>
+<html>
+  <head>
+  <meta name="generator" content="PSPad editor, www.pspad.com">
+  <title></title>
+  </head>
+  <body>
+  
+  
+
+
+<div>
+  <label>
+    <input type="checkbox" id="use-upper" checked>
+    Включить верхние буквы (A-Z)
+  </label>
+</div>
+<div>
+  <label>
+    <input type="checkbox" id="use-digit" checked>
+    Включить цифры (0-9)
+  </label>
+</div>
+<div>
+  <label>
+    <input type="checkbox" id="use-lower" checked>
+    Включить нижние буквы (a-z)
+  </label>
+</div>
+
+<div>
+  <label>
+    <input type="checkbox" id="use-spec" checked>
+    Включить спец. символы (!@#$%^&*()_-+={[}]|:;"'<,>.?)
+  </label>
+</div>
+<label for="length">Длина:</label>
+<input type="number" id="length" min="8" max="128" value="18">
+<label for="quantity">Количество:</label>
+<input type="number" id="quantity" min="1" max="100" value="10">
+<button onclick="generate()">Генерировать</button>
+
+<ul id="output"></ul>
+
+
+	<script>
+const upper = ['','A','B','C','D','E','F','G','H','J','K','M','N','P','Q','R','S','T','U','V','W','X','Y','Z'];
+const lower = ['','a','b','c','d','e','f','g','h','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'];
+const digit = ['','2','3','4','5','6','7','8','9'];
+const spec = ['','!','@','#','$','%','&','(',')','_','-','+','=','{','}','[',']','?'];
+
+function generate() {
+  const length = parseInt(document.getElementById('length').value);
+  const quantity = parseInt(document.getElementById('quantity').value);
+  const useUpper = document.getElementById('use-upper').checked;
+  const useLower = document.getElementById('use-lower').checked;
+  const useDigit = document.getElementById('use-digit').checked;
+  const useSpec = document.getElementById('use-spec').checked;
+  
+  let charSet = [];
+  if (useUpper) charSet = charSet.concat(upper.slice(1));
+  if (useLower) charSet = charSet.concat(lower.slice(1));
+  if (useDigit) charSet = charSet.concat(digit.slice(1));
+  if (useSpec) charSet = charSet.concat(spec.slice(1));
+  
+  const passwords = [];
+  for (let i = 0; i < quantity; i++) {
+    let password = '';
+    for (let j = 0; j < length; j++) {
+      password += charSet[Math.floor(Math.random() * charSet.length)];
+    }
+    passwords.push(password);
+  }
+  
+  const output = document.getElementById('output');
+  output.innerHTML = '';
+  passwords.forEach(password => {
+    const li = document.createElement('li');
+    li.textContent = password;
+    output.appendChild(li);
+  });
+}
+
+	</script>
+  </body>
+</html>
